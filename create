@@ -4,9 +4,6 @@
 	// Where is the configfile repo?
 	$repo = "http://bespired.no-ip.biz/repo";
 
-
-
-
 	$verbose = "--loglevel error";
 
 	// Do we have the laravel installer?
@@ -17,10 +14,12 @@
 
 	// Do we know enough about where to install?
 	$force = '';
+	$mamp  = '';
 	if ( !isset( $argv[1] ))  die( "\nusage :" .$argv[0]. " 'name'\n\n");
 	foreach( $argv as $key => $arg )
 	{
 		if ( $arg == '-force' ) $force = '-force';
+		if ( $arg == '-mamp' )  $mamp  = '-mamp';
 	}
 	
 	$website = trim($argv[1]);
@@ -145,11 +144,12 @@
 	$local  = str_replace('-', '', $local );
 	$local  = "dev_" . $local;
 
-	setenv( $local );
-	if ( copy( $repo."/$local.zip" , "$website/app/config/dev_pack.zip" ) ) echo "/dev_pack.zip\n";
-	system( "cd $website/app/config/; unzip dev_pack.zip");
-	system( "rm $website/app/config/dev_pack.zip");
-
+	if ( $mamp != '' ){
+		setenv( $local );
+		if ( copy( $repo."/$local.zip" , "$website/app/config/dev_pack.zip" ) ) echo "/dev_pack.zip\n";
+		system( "cd $website/app/config/; unzip dev_pack.zip");
+		system( "rm $website/app/config/dev_pack.zip");
+	}
 
 	echo "\n\nNow build something amazing...\n";
 
@@ -225,7 +225,6 @@ function setenv( $name ){
 	file_put_contents( "/Applications/MAMP/conf/apache/httpd.conf" , $filedata );
 
 }
-
 
 
 ?>
