@@ -37,8 +37,13 @@
 	echo "\nInstall Laravel Website $website\n\n";
  	system ( "laravel new " . $website );
 
+ 	// fail or succes?
+ 	if ( !file_exists ( $website . "/artisan" ) ){
+ 		die('Laravel installation failed?');
+ 	}
+
 // ADJUST LARAVEL
-	echo "But not just yet.\n\n";
+ 	echo "But not just yet.\n\n";
 	echo "create extra folders\n";
 	$folders = Array(
 		"app/assets",
@@ -104,7 +109,13 @@
 // INSTALL GRUNT
 	echo "\n\ninstall local grunt\n";
  	system( 'cd '.$website. ';sudo npm install grunt '.$verbose );
+
+// INSTALL GRUNT FILES
+	echo "\n\ninstall grunt plugins\n";
+ 	system( 'cd '.$website. ';sudo npm update '.$verbose );
 	
+/*
+
 	echo "\ninstall local grunt plugins";
 	$plugins= Array(
 		"grunt-contrib-watch",
@@ -117,6 +128,8 @@
 		echo "\ninstall local grunt plugin $plugin\n";
 		system( "cd $website;sudo npm install $plugin $verbose" );
 	}
+
+*/
 	
 // RUN GRUNT	
     echo "\nrun grunt\n";
@@ -168,7 +181,7 @@ function nameReplace( $filename, $website )
 function adjustFile( $website , $filename, $search, $insert )
 {
 	$filedata = file_get_contents( "$website/$filename" );
-	$lines = split( "\n", $filedata );
+	$lines = explode( "\n", $filedata );
 	foreach ($lines as $key => $code) {
 		if ( strpos( $code , $search ) >-1 ){
 			array_splice( $lines, $key-1, 0, $insert );
@@ -185,7 +198,7 @@ function swapfromFile( $website , $filename, $startsearch, $endsearch, $insert )
 	$endline   = -1;
 	
 	$filedata = file_get_contents( "$website/$filename" );
-	$lines = split( "\n", $filedata );
+	$lines = explode( "\n", $filedata );
 	foreach ($lines as $key => $code) {
 		if ( $startline == -1 ){
 			if ( strpos( $code , $startsearch ) >-1 ){ $startline = $key; }
@@ -209,7 +222,7 @@ function swapfromFile( $website , $filename, $startsearch, $endsearch, $insert )
 function setenv( $name ){
 
 	$filedata = file_get_contents( "/Applications/MAMP/conf/apache/httpd.conf" );
-	$lines = split( "\n", $filedata );
+	$lines = explode( "\n", $filedata );
 	// if 'SetEnv LARAVEL '.$name exists then return
 	foreach ($lines as $key => $code) {
 		if ( $code == 'SetEnv LARAVEL '.$name ) return;
