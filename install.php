@@ -13,13 +13,13 @@
 	}
 
 	// Do we know enough about where to install?
-	$force = '';
-	$mamp  = '';
+	$force = ''; $mamp  = ''; $admin = '';
 	if ( !isset( $argv[1] ))  die( "\nusage :" .$argv[0]. " 'name'\n\n");
 	foreach( $argv as $key => $arg )
 	{
 		if ( $arg == '-force' ) $force = '-force';
 		if ( $arg == '-mamp' )  $mamp  = '-mamp';
+		if ( $arg == '-admin' ) $admin = '-admin';
 	}
 	
 	$website = trim($argv[1]);
@@ -162,6 +162,11 @@
 		if ( copy( $repo."/$local.zip" , "$website/app/config/dev_pack.zip" ) ) echo "/dev_pack.zip\n";
 		system( "cd $website/app/config/; unzip dev_pack.zip");
 		system( "rm $website/app/config/dev_pack.zip");
+	}
+
+
+	if ( $admin != '' ){
+		
 	}
 
 	echo "\n\nNow build something amazing...\n";
