@@ -2,7 +2,7 @@
 <?php
 
 	// Where is the configfile repo?
-	$repo = "http://bespired.no-ip.biz/repo";
+	$repo = "https://raw.githubusercontent.com/bespired/laravel-website-install/master/repository";
 
 	$verbose = "--loglevel error";
 

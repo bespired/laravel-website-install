@@ -1,7 +1,7 @@
 OSX php shell script to install Laravel and stuff
 
 use:
-./create 'websitename' [-force] [-mamp]
+php install.php 'websitename' [-force] [-mamp]
 
 creates a laravel install
 with /libraries and /assets in /app
